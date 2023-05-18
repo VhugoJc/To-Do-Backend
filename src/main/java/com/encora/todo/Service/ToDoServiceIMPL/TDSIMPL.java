@@ -11,35 +11,21 @@ import java.util.List;
 @Service
 public class TDSIMPL implements ToDoService {
     @Autowired
-    private ToDoRepo toDoRepo;
+    ToDoRepo toDoRepo;
+
     @Override
-    public List<ToDo> ConsultTodo() {
-        return (List<ToDo>)this.toDoRepo.findAll();
+    public List<ToDo> getAllToDo() {
+        return toDoRepo.findAll();
     }
 
     @Override
-    public List<ToDo> ConsultTodo(ToDo toDo) {
-        return (List<ToDo>)this.toDoRepo.findAll();
+    public List<ToDo> getToDo(ToDo toDo) {
+        return null;
     }
 
     @Override
-    public ToDo CreateToDo(ToDo toDo) {
-        toDo.setText(toDo.getText());
-        return this.toDoRepo.save(toDo);
-    }
+    public List<ToDo> createToDo(ToDo toDo) {
 
-    @Override
-    public ToDo ReadToDo(int id) {
-        return this.toDoRepo.findById(id).get();
-    }
-
-    @Override
-    public ToDo UpdateToDo(ToDo toDo) {
-        return this.toDoRepo.save(toDo);
-    }
-
-    @Override
-    public void DeleteTodo(int id) {
-        this.toDoRepo.deleteById(id);
+        return toDoRepo.add(toDo);
     }
 }
