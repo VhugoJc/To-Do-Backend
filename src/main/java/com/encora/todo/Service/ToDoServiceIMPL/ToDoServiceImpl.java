@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class TDSIMPL implements ToDoService { //All your business logic should be in the Service Layer
+public class ToDoServiceImpl implements ToDoService { //All your business logic should be in the Service Layer
     @Autowired
     ToDoRepo toDoRepo;
 
