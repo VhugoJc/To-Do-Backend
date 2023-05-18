@@ -2,6 +2,7 @@ package com.encora.todo.Controller;
 
 import com.encora.todo.Entity.ToDo;
 import com.encora.todo.Service.ToDoServiceIMPL.ToDoServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class Controller {
     }
     @PostMapping // POST /api/todos
     @RequestMapping(value = "todos",method = RequestMethod.POST)
-    public ResponseEntity<?> toDoPost(@RequestBody ToDo newToDo){
+    public ResponseEntity<?> toDoPost(@Valid @RequestBody ToDo newToDo){
         List<ToDo> toDos=this.impl.createToDo(newToDo);
         return ResponseEntity.ok(toDos);
     }

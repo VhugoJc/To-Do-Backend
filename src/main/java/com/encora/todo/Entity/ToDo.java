@@ -1,17 +1,40 @@
 package com.encora.todo.Entity;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 
 public class ToDo {
     private int id;
+    @NotNull
+    @NotEmpty
+    @Max(120)
     private String name;
+    @DateTimeFormat
     private LocalDateTime dueDate;
+    @DateTimeFormat
     private LocalDateTime doneDate;
+    @DateTimeFormat
     private LocalDateTime createdDate;
-    private String priority;
-
-
+    @NotNull
+    private Priotity priotity;
     private boolean done;
+
+    public enum Priotity {
+       low, medium, high;
+    }
+
+    public Priotity getPriotity() {
+        return priotity;
+    }
+
+    public void setPriotity(Priotity priotity) {
+        this.priotity = priotity;
+    }
+
 
     public int getId() {
         return id;
@@ -53,13 +76,6 @@ public class ToDo {
         this.createdDate = createdDate;
     }
 
-    public String getPriority() {
-        return priority;
-    }
-
-    public void setPriority(String priority) {
-        this.priority = priority;
-    }
 
     public boolean isDone() {
         return done;
