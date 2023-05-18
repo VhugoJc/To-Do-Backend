@@ -6,10 +6,11 @@ import com.encora.todo.Service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class TDSIMPL implements ToDoService {
+public class TDSIMPL implements ToDoService { //All your business logic should be in the Service Layer
     @Autowired
     ToDoRepo toDoRepo;
 
@@ -25,7 +26,12 @@ public class TDSIMPL implements ToDoService {
 
     @Override
     public List<ToDo> createToDo(ToDo toDo) {
-
+        toDo.setId(toDoRepo.size()+1); // autoincrement id
+        toDo.setCreatedDate(LocalDateTime.now()); // add created date
         return toDoRepo.add(toDo);
     }
+    private ToDo validateData(ToDo toDo){
+        return toDo;
+    }
+
 }

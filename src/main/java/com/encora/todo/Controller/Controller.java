@@ -15,8 +15,8 @@ public class Controller {
 
     @Autowired
     private TDSIMPL impl; //To Do Service Implementation
-    @PostMapping // POST api/to-do
-    @RequestMapping(value = "to-do",method = RequestMethod.POST)
+    @PostMapping // POST api/todos
+    @RequestMapping(value = "todos",method = RequestMethod.POST)
     public ResponseEntity<?> toDoPost(@RequestBody ToDo newToDo){
         List<ToDo> toDos=this.impl.createToDo(newToDo);
         return ResponseEntity.ok(toDos);

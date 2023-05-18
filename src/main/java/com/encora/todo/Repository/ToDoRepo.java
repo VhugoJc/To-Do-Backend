@@ -3,7 +3,6 @@ package com.encora.todo.Repository;
 import com.encora.todo.Entity.ToDo;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @Repository
@@ -15,9 +14,10 @@ public class ToDoRepo {
     }
 
     public List<ToDo> add(ToDo newToDo){
-        newToDo.setId(toDos.size()+1); // autoincrement id
-        newToDo.setCreatedDate(LocalDateTime.now());
         toDos.add(newToDo);
         return toDos;
+    }
+    public int size(){
+        return toDos.size();
     }
 }
