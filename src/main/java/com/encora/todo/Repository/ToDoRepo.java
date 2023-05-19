@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 @Repository
-public class ToDoRepo {
+public class ToDoRepo implements ToDoRep {
     private static List<ToDo> toDos = new ArrayList<ToDo>();
 
     public List<ToDo> findAll(){

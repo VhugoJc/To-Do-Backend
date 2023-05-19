@@ -16,7 +16,7 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
     ToDoRepo toDoRepo;
 
     @Override
-    public List<ToDo> getAllToDo(String name,String priority,String status) {
+    public List<ToDo> getAllToDo(String name,String priority,String status, String page) {
         List<ToDo> filteredToDoList = new ArrayList<ToDo>() ;
         List<ToDo>allToDo = toDoRepo.findAll();
 
@@ -31,7 +31,6 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
             filteredToDoList=allToDo;
         }
         //status filter
-
         if(status!=null){
             for(int j=0; j<filteredToDoList.size();j++){
                 if(status.equals("done")){
@@ -54,6 +53,17 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
                 }
             }
         }
+        // pagination
+        if(page != null && page.matches("[0-9.]+")){ //if is numeric
+            int number = Integer.parseInt(page) - 1;
+            if(number>=0 && number*10<filteredToDoList.size() ){ // if in the range
+                filteredToDoList=filteredToDoList.subList(number*10, Math.min(number*10+10, filteredToDoList.size()));
+            }else{
+                filteredToDoList=new ArrayList<ToDo>();
+            }
+        }
+
+
         return filteredToDoList ;
     }
 
