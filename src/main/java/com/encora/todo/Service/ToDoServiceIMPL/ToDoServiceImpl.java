@@ -43,9 +43,15 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
         return toDoRepo.findAll();
     }
 
-
-    private ToDo validateData(ToDo toDo){
-        return toDo;
+    @Override
+    public void updateDone(int id) {
+        List<ToDo>allToDo = toDoRepo.findAll();
+        for (int i=0; i<allToDo.size();i++){
+            if(allToDo.get(i).getId()==id){
+                allToDo.get(i).setDone(true); // mark as done
+                allToDo.get(i).setDoneDate(LocalDateTime.now()); // assign current date
+                toDoRepo.update(i,allToDo.get(i));
+            }
+        }
     }
-
 }

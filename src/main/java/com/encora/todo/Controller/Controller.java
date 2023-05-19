@@ -28,16 +28,16 @@ public class Controller {
         List<ToDo> toDos=this.impl.createToDo(newToDo);
         return ResponseEntity.ok(toDos);
     }
-    // in process:
     @PutMapping // Put /api/todos/id
     @RequestMapping(value = "todos/{id}",method = RequestMethod.PUT)
     public ResponseEntity<?> toDoUpdate(@Valid @RequestBody ToDo newToDo, @PathVariable int id){
         List<ToDo> allMyToDos = this.impl.updateToDo(id,newToDo);
         return ResponseEntity.ok(allMyToDos);
     }
-    @PostMapping // Put /api/todos/id/done
+    @PostMapping // Post /api/todos/id/done
     @RequestMapping(value = "todos/{id}/done",method = RequestMethod.POST)
-    public ResponseEntity<?> toDoPostDone(@PathVariable int toDoId){
+    public ResponseEntity<?> toDoPostDone(@PathVariable int id){
+        this.impl.updateDone(id);
         return ResponseEntity.ok().build();
     }
     @PutMapping // Put /api/todos/id/done
