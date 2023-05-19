@@ -54,4 +54,15 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
             }
         }
     }
+    @Override
+    public void updateUndone(int id) {
+        List<ToDo>allToDo = toDoRepo.findAll();
+        for (int i=0; i<allToDo.size();i++){
+            if(allToDo.get(i).getId()==id){
+                allToDo.get(i).setDone(false); // mark as done
+                allToDo.get(i).setDoneDate(null); // assign current date
+                toDoRepo.update(i,allToDo.get(i));
+            }
+        }
+    }
 }

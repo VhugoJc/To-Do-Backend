@@ -41,8 +41,9 @@ public class Controller {
         return ResponseEntity.ok().build();
     }
     @PutMapping // Put /api/todos/id/done
-    @RequestMapping(value = "todos/{id}/done",method = RequestMethod.PUT)
-    public ResponseEntity<?> toDoPutUndone(@PathVariable int toDoId){
+    @RequestMapping(value = "todos/{id}/undone",method = RequestMethod.PUT)
+    public ResponseEntity<?> toDoPutUndone(@PathVariable int id){
+        this.impl.updateUndone(id);
         return ResponseEntity.ok().build();
     }
 }
