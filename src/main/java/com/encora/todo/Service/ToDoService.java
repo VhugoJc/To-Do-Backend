@@ -9,4 +9,5 @@ public interface ToDoService {
     public List<ToDo> getToDo(ToDo toDo);
 
     public List<ToDo> createToDo(ToDo toDo);
+    public List<ToDo> updateToDo(int id, ToDo toDo);
 }

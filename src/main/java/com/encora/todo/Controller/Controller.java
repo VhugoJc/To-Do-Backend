@@ -31,8 +31,9 @@ public class Controller {
     // in process:
     @PutMapping // Put /api/todos/id
     @RequestMapping(value = "todos/{id}",method = RequestMethod.PUT)
-    public ResponseEntity<?> toDoUpdate(@RequestBody ToDo newToDo, @PathVariable int id){
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> toDoUpdate(@Valid @RequestBody ToDo newToDo, @PathVariable int id){
+        List<ToDo> allMyToDos = this.impl.updateToDo(id,newToDo);
+        return ResponseEntity.ok(allMyToDos);
     }
     @PostMapping // Put /api/todos/id/done
     @RequestMapping(value = "todos/{id}/done",method = RequestMethod.POST)

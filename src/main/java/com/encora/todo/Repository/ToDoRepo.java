@@ -20,4 +20,9 @@ public class ToDoRepo {
     public int size(){
         return toDos.size();
     }
+
+    public List<ToDo> update(int index, ToDo myTodo){
+        toDos.set(index,myTodo);
+        return toDos;
+    }
 }

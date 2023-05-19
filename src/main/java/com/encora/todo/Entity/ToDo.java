@@ -11,7 +11,6 @@ public class ToDo {
     private int id;
     @NotNull
     @NotEmpty
-    @Max(120)
     private String name;
     @DateTimeFormat
     private LocalDateTime dueDate;

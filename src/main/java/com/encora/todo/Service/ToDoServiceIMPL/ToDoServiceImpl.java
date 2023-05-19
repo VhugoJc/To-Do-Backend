@@ -28,8 +28,22 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
     public List<ToDo> createToDo(ToDo toDo) {
         toDo.setId(toDoRepo.size()+1); // autoincrement id
         toDo.setCreatedDate(LocalDateTime.now()); // add created date
+        toDo.setDoneDate(null);
         return toDoRepo.add(toDo);
     }
+
+    @Override
+    public List<ToDo> updateToDo(int id, ToDo toDo) {
+        List<ToDo>allToDo = toDoRepo.findAll();
+        for (int i=0; i<allToDo.size();i++){
+            if(allToDo.get(i).getId()==id){
+                toDoRepo.update(i,toDo);
+            }
+        }
+        return toDoRepo.findAll();
+    }
+
+
     private ToDo validateData(ToDo toDo){
         return toDo;
     }
