@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,8 +16,45 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
     ToDoRepo toDoRepo;
 
     @Override
-    public List<ToDo> getAllToDo() {
-        return toDoRepo.findAll();
+    public List<ToDo> getAllToDo(String name,String priority,String status) {
+        List<ToDo> filteredToDoList = new ArrayList<ToDo>() ;
+        List<ToDo>allToDo = toDoRepo.findAll();
+
+        //priority filter
+        if(priority!=null){
+            for (int i=0; i<allToDo.size();i++){
+                if(priority.equals(allToDo.get(i).getPriotity().toString())) {
+                    filteredToDoList.add(allToDo.get(i));
+                }
+            }
+        }else{
+            filteredToDoList=allToDo;
+        }
+        //status filter
+
+        if(status!=null){
+            for(int j=0; j<filteredToDoList.size();j++){
+                if(status.equals("done")){
+                    if(!filteredToDoList.get(j).isDone()){// remove all undone elements
+                        filteredToDoList.remove(filteredToDoList.get(j));
+                    }
+                }
+                if(status.equals("undone")){
+                    if(filteredToDoList.get(j).isDone()){ // remove all done elements
+                        filteredToDoList.remove(filteredToDoList.get(j));
+                    }
+                }
+            }
+        }
+        //name filter
+        if(name!=null){
+            for(int k=0; k<filteredToDoList.size();k++) {
+                if(!filteredToDoList.get(k).getName().contains(name)){
+                    filteredToDoList.remove(filteredToDoList.get(k));
+                }
+            }
+        }
+        return filteredToDoList ;
     }
 
     @Override

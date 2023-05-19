@@ -18,8 +18,8 @@ public class Controller {
     private ToDoServiceImpl impl; //To Do Service Implementation
     @GetMapping // GET /api/todos
     @RequestMapping(value = "todos",method = RequestMethod.GET)
-    public ResponseEntity<?> toDoGet(){
-        List<ToDo> toDos=this.impl.getAllToDo();
+    public ResponseEntity<?> toDoGet(String name, String priority,String status){ //@RequestParam
+        List<ToDo> toDos=this.impl.getAllToDo(name, priority, status);
         return ResponseEntity.ok(toDos);
     }
     @PostMapping // POST /api/todos
