@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ToDoServiceImpl implements ToDoService { //All your business logic should be in the Service Layer
@@ -16,9 +18,12 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
     ToDoRepo toDoRepo;
 
     @Override
-    public List<ToDo> getAllToDo(String name,String priority,String status, String page) {
+    public Map<String, Object> getAllToDo(String name, String priority, String status, String page) {
         List<ToDo> filteredToDoList = new ArrayList<ToDo>() ;
         List<ToDo>allToDo = toDoRepo.findAll();
+        int currentPage=0;
+        int totalPages=0;
+        int pageSize=10;
 
         //priority filter
         if(priority!=null){
@@ -53,18 +58,25 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
                 }
             }
         }
+        // get the total amount of pages
+        totalPages= (int) Math.ceil((double) filteredToDoList.size() /pageSize);
+
         // pagination
         if(page != null && page.matches("[0-9.]+")){ //if is numeric
-            int number = Integer.parseInt(page) - 1;
-            if(number>=0 && number*10<filteredToDoList.size() ){ // if in the range
-                filteredToDoList=filteredToDoList.subList(number*10, Math.min(number*10+10, filteredToDoList.size()));
+            currentPage= Integer.parseInt(page) - 1;
+            if(currentPage>=0 && currentPage*pageSize<filteredToDoList.size() ){ // if in the range
+                filteredToDoList=filteredToDoList.subList(currentPage*pageSize, Math.min(currentPage*pageSize+pageSize, filteredToDoList.size()));
             }else{
                 filteredToDoList=new ArrayList<ToDo>();
             }
         }
 
+        Map<String,Object> response = new HashMap<>();
+        response.put("toDos",filteredToDoList);
+        response.put("currentPage",currentPage+1);
+        response.put("totalPages",totalPages);
 
-        return filteredToDoList ;
+        return response ;
     }
 
     @Override

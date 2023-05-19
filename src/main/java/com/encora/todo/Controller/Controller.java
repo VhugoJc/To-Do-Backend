@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api")
@@ -19,9 +21,10 @@ public class Controller {
     @GetMapping // GET /api/todos
     @RequestMapping(value = "todos",method = RequestMethod.GET)
     public ResponseEntity<?> toDoGet(String name, String priority,String status, String page){ //@RequestParam
-        List<ToDo> toDos=this.impl.getAllToDo(name, priority, status, page);
+        Map<String,Object> toDos=this.impl.getAllToDo(name, priority, status, page);
         return ResponseEntity.ok(toDos);
     }
+
     @PostMapping // POST /api/todos
     @RequestMapping(value = "todos",method = RequestMethod.POST)
     public ResponseEntity<?> toDoPost(@Valid @RequestBody ToDo newToDo){

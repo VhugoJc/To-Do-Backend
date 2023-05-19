@@ -3,9 +3,10 @@ package com.encora.todo.Service;
 import com.encora.todo.Entity.ToDo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ToDoService {
-    List<ToDo> getAllToDo(String name,String priority,String status, String page);
+    Map<String, Object> getAllToDo(String name, String priority, String status, String page);
     public List<ToDo> getToDo(ToDo toDo);
 
     public List<ToDo> createToDo(ToDo toDo);
