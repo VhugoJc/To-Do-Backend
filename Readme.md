@@ -27,7 +27,10 @@ Run the application:
 ```bash
 mvn soring-boot:run
 ```
-
+Test the application:
+```bash
+mvn test
+```
 The application will start running on http://localhost:9090.
 
 
