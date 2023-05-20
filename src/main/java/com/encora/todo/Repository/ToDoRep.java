@@ -11,4 +11,6 @@ public interface ToDoRep {
     public int size();
 
     public List<ToDo> update(int index, ToDo myTodo);
+
+    public void remove(int index);
 }

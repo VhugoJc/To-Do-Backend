@@ -13,4 +13,5 @@ public interface ToDoService {
     public List<ToDo> updateToDo(int id, ToDo toDo);
     public void updateDone(int id);
     public void updateUndone(int id);
+    public void deleteTodo(int id);
 }

@@ -129,4 +129,14 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
             }
         }
     }
+
+    @Override
+    public void deleteTodo(int id) {
+        List<ToDo>allToDo = toDoRepo.findAll();
+        for (int i=0; i<allToDo.size();i++){
+            if(allToDo.get(i).getId()==id){
+                toDoRepo.remove(i);
+            }
+        }
+    }
 }

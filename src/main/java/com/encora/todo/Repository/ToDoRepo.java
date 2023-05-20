@@ -25,4 +25,9 @@ public class ToDoRepo implements ToDoRep {
         toDos.set(index,myTodo);
         return toDos;
     }
+
+    @Override
+    public void remove(int index) {
+        toDos.remove(index);
+    }
 }

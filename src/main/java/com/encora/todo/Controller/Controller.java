@@ -49,6 +49,12 @@ public class Controller {
         this.toDoImpl.updateUndone(id);
         return ResponseEntity.ok().build();
     }
+    @DeleteMapping
+    @RequestMapping(value = "todo/{id}", method = RequestMethod.DELETE)
+    public  ResponseEntity<?> toDoDelete(@PathVariable int id){
+        this.toDoImpl.deleteTodo(id);
+        return ResponseEntity.ok().build();
+    }
 
     //metrics
     @GetMapping
@@ -57,4 +63,5 @@ public class Controller {
         Map<String,Object> metrics = this.metricsImpl.getMetrics();
         return ResponseEntity.ok(metrics);
     }
+
 }
