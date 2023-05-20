@@ -1,6 +1,9 @@
 /Users/victor.jimenez/Documents/06_week/To-Do-Backend/src/main/java/com/encora/todo/Entity/ToDo.java
+/Users/victor.jimenez/Documents/06_week/To-Do-Backend/src/main/java/com/encora/todo/Service/MetricsService.java
+/Users/victor.jimenez/Documents/06_week/To-Do-Backend/src/main/java/com/encora/todo/Repository/ToDoRep.java
 /Users/victor.jimenez/Documents/06_week/To-Do-Backend/src/main/java/com/encora/todo/TodoApplication.java
 /Users/victor.jimenez/Documents/06_week/To-Do-Backend/src/main/java/com/encora/todo/Service/ToDoServiceIMPL/ToDoServiceImpl.java
+/Users/victor.jimenez/Documents/06_week/To-Do-Backend/src/main/java/com/encora/todo/Service/MetricsServiceIMPL/MetricsServiceImp.java
 /Users/victor.jimenez/Documents/06_week/To-Do-Backend/src/main/java/com/encora/todo/Repository/ToDoRepo.java
 /Users/victor.jimenez/Documents/06_week/To-Do-Backend/src/main/java/com/encora/todo/Controller/Controller.java
 /Users/victor.jimenez/Documents/06_week/To-Do-Backend/src/main/java/com/encora/todo/Service/ToDoService.java
