@@ -97,7 +97,11 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
         List<ToDo>allToDo = toDoRepo.findAll();
         for (int i=0; i<allToDo.size();i++){
             if(allToDo.get(i).getId()==id){
-                toDoRepo.update(i,toDo);
+                toDo.setId(allToDo.get(i).getId()); // not change id
+                toDo.setCreatedDate(allToDo.get(i).getCreatedDate()); //no change created Date
+                toDo.setDone(allToDo.get(i).isDone()); // no change done flag
+                toDo.setDoneDate(allToDo.get(i).getDoneDate()); // no change done date
+                toDoRepo.update(i,toDo); // update name, due date or/and priority
             }
         }
         return toDoRepo.findAll();
