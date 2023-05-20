@@ -19,9 +19,9 @@ public class MetricsServiceImp implements MetricsService {
     public Map<String, Object> getMetrics() {
         List<ToDo> toDos = toDoRepo.findAll();
 
-        long lowPriorityMinutes = 0;
-        long mediumPriorityMinutes = 0;
-        long highPriorityMinutes = 0;
+        float lowPriorityMinutes = 0;
+        float mediumPriorityMinutes = 0;
+        float highPriorityMinutes = 0;
 
         int doneElements = 0;
         int lowPriorityElements = 0;
@@ -40,28 +40,27 @@ public class MetricsServiceImp implements MetricsService {
                 switch (toDos.get(i).getPriotity().toString()){
                     case "low":
                         lowPriorityElements++;
-                        lowPriorityMinutes = ChronoUnit.MINUTES.between(start,finish);
+                        lowPriorityMinutes += ChronoUnit.SECONDS.between(start,finish)/60;
                         break;
                     case "medium":
                         mediumPriorityElements++;
-                        mediumPriorityMinutes = ChronoUnit.MINUTES.between(start,finish);
+                        mediumPriorityMinutes += ChronoUnit.SECONDS.between(start,finish)/60;
                         break;
                     case "high":
                         highPriorityElements++;
-                        highPriorityMinutes = ChronoUnit.MINUTES.between(start,finish);
+                        highPriorityMinutes += ChronoUnit.SECONDS.between(start,finish)/60;
                 }
             }
         }
 
         Map<String,Object> response = new HashMap<>();
-        response.put("totalMinutes",averageValidator(lowPriorityMinutes+mediumPriorityMinutes+highPriorityMinutes,doneElements));
         response.put("lowPriorityMinutes",averageValidator(lowPriorityMinutes,lowPriorityElements));
         response.put("mediumPriorityMinutes",averageValidator(mediumPriorityMinutes,mediumPriorityElements));
         response.put("highPriorityMinutes",averageValidator(highPriorityMinutes,highPriorityElements));
         return response;
     }
 
-    private long averageValidator(long minutes, int elements){
+    private float averageValidator(float minutes, int elements){
         if(elements==0){
             return 0;
         }else {
