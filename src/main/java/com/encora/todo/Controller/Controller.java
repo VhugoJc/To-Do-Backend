@@ -28,14 +28,14 @@ public class Controller {
     @PostMapping // POST /api/todos
     @RequestMapping(value = "todos",method = RequestMethod.POST)
     public ResponseEntity<?> toDoPost(@Valid @RequestBody ToDo newToDo){
-        List<ToDo> toDos=this.toDoImpl.createToDo(newToDo);
-        return ResponseEntity.ok(toDos);
+        ToDo toDo=this.toDoImpl.createToDo(newToDo);
+        return ResponseEntity.ok(toDo);
     }
     @PutMapping // Put /api/todos/id
     @RequestMapping(value = "todos/{id}",method = RequestMethod.PUT)
     public ResponseEntity<?> toDoUpdate(@Valid @RequestBody ToDo newToDo, @PathVariable int id){
-        List<ToDo> allMyToDos = this.toDoImpl.updateToDo(id,newToDo);
-        return ResponseEntity.ok().build();
+        ToDo updatedTodo = this.toDoImpl.updateToDo(id,newToDo);
+        return ResponseEntity.ok(updatedTodo);
     }
     @PostMapping // Post /api/todos/id/done
     @RequestMapping(value = "todos/{id}/done",method = RequestMethod.POST)
