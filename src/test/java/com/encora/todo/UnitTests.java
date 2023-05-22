@@ -25,7 +25,7 @@ public class UnitTests {
     public void createToDoTest () {
         ToDo todo = new ToDo();
         todo.setName("Task 1");
-        todo.setPriotity(ToDo.Priotity.valueOf("low"));
+        todo.setPriority(ToDo.Priority.valueOf("low"));
         todo.setCreatedDate(LocalDateTime.parse("2023-05-18T10:08:47.316615"));
         this.impl.createToDo(todo);
         Assertions.assertNotNull(this.todoRepo.findAll());
@@ -34,7 +34,7 @@ public class UnitTests {
     public void doneToDoTest (){
         ToDo todo = new ToDo();
         todo.setName("Task 2");
-        todo.setPriotity(ToDo.Priotity.valueOf("medium"));
+        todo.setPriority(ToDo.Priority.valueOf("medium"));
         todo.setCreatedDate(LocalDateTime.parse("2023-05-18T10:08:47.316615"));
         this.impl.createToDo(todo); //create element in the list with id 2
         this.impl.updateDone(1);
@@ -44,7 +44,7 @@ public class UnitTests {
     public void updateToDoTest (){
         ToDo todo = new ToDo();
         todo.setName("Task x");
-        todo.setPriotity(ToDo.Priotity.valueOf("medium"));
+        todo.setPriority(ToDo.Priority.valueOf("medium"));
         todo.setCreatedDate(LocalDateTime.parse("2023-05-18T10:08:47.316615"));
         this.impl.updateToDo(1,todo);
         assertThat(this.todoRepo.findAll().get(0).getName()).isEqualTo("Task x");

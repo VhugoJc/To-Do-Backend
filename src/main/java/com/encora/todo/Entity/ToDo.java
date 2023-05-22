@@ -18,19 +18,19 @@ public class ToDo {
     @DateTimeFormat
     private LocalDateTime createdDate;
     @NotNull
-    private Priotity priotity;
+    private Priority priority;
     private boolean done;
 
-    public enum Priotity {
+    public enum Priority {
        low, medium, high;
     }
 
-    public Priotity getPriotity() {
-        return priotity;
+    public Priority getPriority() {
+        return priority;
     }
 
-    public void setPriotity(Priotity priotity) {
-        this.priotity = priotity;
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
 

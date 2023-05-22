@@ -28,7 +28,7 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
         //priority filter
         if(priority!=null){
             for (int i=0; i<allToDo.size();i++){
-                if(priority.equals(allToDo.get(i).getPriotity().toString())) {
+                if(priority.equals(allToDo.get(i).getPriority().toString())) {
                     filteredToDoList.add(allToDo.get(i));
                 }
             }

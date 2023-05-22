@@ -37,7 +37,7 @@ public class MetricsServiceImp implements MetricsService {
                 LocalDateTime finish = toDos.get(i).getDoneDate();
 
                 // priority switch case
-                switch (toDos.get(i).getPriotity().toString()){
+                switch (toDos.get(i).getPriority().toString()){
                     case "low":
                         lowPriorityElements++;
                         lowPriorityMinutes += ChronoUnit.SECONDS.between(start,finish)/60;
