@@ -5,21 +5,24 @@ import com.encora.todo.Service.MetricsServiceIMPL.MetricsServiceImp;
 import com.encora.todo.Service.ToDoServiceIMPL.ToDoServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-
 @RestController
 @RequestMapping("api")
 public class Controller {
+    private static final String CLIENT_URL="http://localhost:8080";
 
     @Autowired
     private ToDoServiceImpl toDoImpl; //To Do Service Implementation
     @Autowired
     private MetricsServiceImp metricsImpl; // Metrics Service Implementation
     @GetMapping // GET /api/todos
+    @CrossOrigin(origins = {CLIENT_URL}) //avoid cors blocker
     @RequestMapping(value = "todos",method = RequestMethod.GET)
     public ResponseEntity<?> toDoGet(String name, String priority,String status, String page){ //@RequestParam
         Map<String,Object> toDos=this.toDoImpl.getAllToDo(name, priority, status, page);
