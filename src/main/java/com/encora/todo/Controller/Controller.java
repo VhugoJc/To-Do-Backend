@@ -29,30 +29,35 @@ public class Controller {
         return ResponseEntity.ok(toDos);
     }
     @PostMapping // POST /api/todos
+    @CrossOrigin(origins = {CLIENT_URL}) //avoid cors blocker
     @RequestMapping(value = "todos",method = RequestMethod.POST)
     public ResponseEntity<?> toDoPost(@Valid @RequestBody ToDo newToDo){
         ToDo toDo=this.toDoImpl.createToDo(newToDo);
         return ResponseEntity.ok(toDo);
     }
     @PutMapping // Put /api/todos/id
+    @CrossOrigin(origins = {CLIENT_URL}) //avoid cors blocker
     @RequestMapping(value = "todos/{id}",method = RequestMethod.PUT)
     public ResponseEntity<?> toDoUpdate(@Valid @RequestBody ToDo newToDo, @PathVariable int id){
         ToDo updatedTodo = this.toDoImpl.updateToDo(id,newToDo);
         return ResponseEntity.ok(updatedTodo);
     }
     @PostMapping // Post /api/todos/id/done
+    @CrossOrigin(origins = {CLIENT_URL}) //avoid cors blocker
     @RequestMapping(value = "todos/{id}/done",method = RequestMethod.POST)
     public ResponseEntity<?> toDoPostDone(@PathVariable int id){
         this.toDoImpl.updateDone(id);
         return ResponseEntity.ok().build();
     }
     @PutMapping // Put /api/todos/id/done
+    @CrossOrigin(origins = {CLIENT_URL}) //avoid cors blocker
     @RequestMapping(value = "todos/{id}/undone",method = RequestMethod.PUT)
     public ResponseEntity<?> toDoPutUndone(@PathVariable int id){
         this.toDoImpl.updateUndone(id);
         return ResponseEntity.ok().build();
     }
     @DeleteMapping
+    @CrossOrigin(origins = {CLIENT_URL}) //avoid cors blocker
     @RequestMapping(value = "todo/{id}", method = RequestMethod.DELETE)
     public  ResponseEntity<?> toDoDelete(@PathVariable int id){
         this.toDoImpl.deleteTodo(id);
@@ -61,6 +66,7 @@ public class Controller {
 
     //metrics
     @GetMapping
+    @CrossOrigin(origins = {CLIENT_URL}) //avoid cors blocker
     @RequestMapping(value = "metrics", method = RequestMethod.GET)
     public  ResponseEntity<?> metricsGet(){
         Map<String,Object> metrics = this.metricsImpl.getMetrics();

@@ -86,14 +86,23 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
 
     @Override
     public ToDo createToDo(ToDo toDo) {
+
         int index = toDoRepo.size();
-        toDo.setId(index+1); // autoincrement id
+        toDo.setId(idGenerator()); // autoincrement id
         toDo.setCreatedDate(LocalDateTime.now()); // add created date
         toDo.setDoneDate(null);
         List <ToDo> toDos = toDoRepo.add(toDo);
         return toDos.get(index);
     }
 
+    private int idGenerator () {
+        int index = toDoRepo.size();
+        List <ToDo> toDos = toDoRepo.findAll();
+        if(index==0){
+            return 0;
+        }
+        return toDos.get(index-1).getId()+1;
+    }
     @Override
     public ToDo updateToDo(int id, ToDo toDo) {
         List<ToDo>allToDo = toDoRepo.findAll();
