@@ -27,7 +27,10 @@ Run the application:
 ```bash
 mvn soring-boot:run
 ```
-
+Test the application:
+```bash
+mvn test
+```
 The application will start running on http://localhost:9090.
 
 
@@ -153,7 +156,7 @@ In this example, the endpoint /api/todo accepts optional query parameters `statu
 - **Description**: Changes `done` as true and assigns a date to `dueDate` by its ID.
 
 ### Mark To-Do as undone
-- **Endpoint**: `POST /api/todos/{id}/done`
+- **Endpoint**: `PUT /api/todos/{id}/undone`
 - **Description**: Changes `done` as false and assigns null to `dueDate` by its ID.
 
 ### Read Time Average
