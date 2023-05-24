@@ -24,8 +24,8 @@ public class Controller {
     @GetMapping // GET /api/todos
     @CrossOrigin(origins = {CLIENT_URL}) //avoid cors blocker
     @RequestMapping(value = "todos",method = RequestMethod.GET)
-    public ResponseEntity<?> toDoGet(String name, String priority,String status, String page){ //@RequestParam
-        Map<String,Object> toDos=this.toDoImpl.getAllToDo(name, priority, status, page);
+    public ResponseEntity<?> toDoGet(String name, String priority,String status, String page,  String sortByPriority, String sortByDate){ //@RequestParam
+        Map<String,Object> toDos=this.toDoImpl.getAllToDo(name, priority, status, page, sortByPriority, sortByDate);
         return ResponseEntity.ok(toDos);
     }
     @PostMapping // POST /api/todos

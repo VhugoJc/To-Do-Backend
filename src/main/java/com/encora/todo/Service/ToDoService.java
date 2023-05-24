@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ToDoService {
-    Map<String, Object> getAllToDo(String name, String priority, String status, String page);
+    Map<String, Object> getAllToDo(String name, String priority, String status, String page,  String sortByPriority, String sortByDate);
     public List<ToDo> getToDo(ToDo toDo);
 
     public ToDo createToDo(ToDo toDo);
