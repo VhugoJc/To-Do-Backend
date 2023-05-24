@@ -11,6 +11,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class MetricsServiceImp implements MetricsService {
     @Autowired
@@ -37,34 +39,48 @@ public class MetricsServiceImp implements MetricsService {
                 LocalDateTime finish = toDos.get(i).getDoneDate();
 
                 // priority switch case
-                switch (toDos.get(i).getPriotity().toString()){
+                switch (toDos.get(i).getPriority().toString()){
                     case "low":
+                        doneElements++;
                         lowPriorityElements++;
-                        lowPriorityMinutes += ChronoUnit.SECONDS.between(start,finish)/60;
+                        lowPriorityMinutes += (float) ChronoUnit.SECONDS.between(start, finish);
                         break;
                     case "medium":
+                        doneElements++;
                         mediumPriorityElements++;
-                        mediumPriorityMinutes += ChronoUnit.SECONDS.between(start,finish)/60;
+                        mediumPriorityMinutes += (float) ChronoUnit.SECONDS.between(start, finish);
                         break;
                     case "high":
+                        doneElements++;
                         highPriorityElements++;
-                        highPriorityMinutes += ChronoUnit.SECONDS.between(start,finish)/60;
+                        highPriorityMinutes += (float) ChronoUnit.SECONDS.between(start, finish);
                 }
             }
         }
+
+        float totalMinutes = lowPriorityMinutes + mediumPriorityMinutes + highPriorityMinutes;
+        int totalElements = lowPriorityElements + mediumPriorityElements + highPriorityElements;
 
         Map<String,Object> response = new HashMap<>();
         response.put("lowPriorityMinutes",averageValidator(lowPriorityMinutes,lowPriorityElements));
         response.put("mediumPriorityMinutes",averageValidator(mediumPriorityMinutes,mediumPriorityElements));
         response.put("highPriorityMinutes",averageValidator(highPriorityMinutes,highPriorityElements));
+        response.put("totalMinutes",averageValidator(totalMinutes,totalElements));
+
         return response;
     }
 
-    private float averageValidator(float minutes, int elements){
+    private String averageValidator(float seconds, int elements){
         if(elements==0){
-            return 0;
+            return "0";
         }else {
-            return minutes/elements;
+            seconds = seconds/elements;
+            int numberOfMinutes = (int) (((seconds % 86400) % 3600) / 60);
+            int numberOfSeconds = (int) (((seconds % 86400) % 3600) % 60);
+            if(numberOfSeconds<10){
+                return numberOfMinutes+":0"+numberOfSeconds;
+            }
+            return numberOfMinutes+":"+numberOfSeconds;
         }
     }
 }

@@ -19,8 +19,8 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
 
     @Override
     public Map<String, Object> getAllToDo(String name, String priority, String status, String page) {
-        List<ToDo> filteredToDoList = new ArrayList<ToDo>() ;
         List<ToDo>allToDo = toDoRepo.findAll();
+        List<ToDo> filteredToDoList = new ArrayList<ToDo>(allToDo) ;
         int currentPage=0;
         int totalPages=0;
         int pageSize=10;
@@ -28,12 +28,10 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
         //priority filter
         if(priority!=null){
             for (int i=0; i<allToDo.size();i++){
-                if(priority.equals(allToDo.get(i).getPriotity().toString())) {
-                    filteredToDoList.add(allToDo.get(i));
+                if(!priority.equals(allToDo.get(i).getPriority().toString())) {
+                    filteredToDoList.remove(allToDo.get(i));
                 }
             }
-        }else{
-            filteredToDoList=allToDo;
         }
         //status filter
         if(status!=null){
@@ -86,14 +84,23 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
 
     @Override
     public ToDo createToDo(ToDo toDo) {
+
         int index = toDoRepo.size();
-        toDo.setId(index+1); // autoincrement id
+        toDo.setId(idGenerator()); // autoincrement id
         toDo.setCreatedDate(LocalDateTime.now()); // add created date
         toDo.setDoneDate(null);
         List <ToDo> toDos = toDoRepo.add(toDo);
         return toDos.get(index);
     }
 
+    private int idGenerator () {
+        int index = toDoRepo.size();
+        List <ToDo> toDos = toDoRepo.findAll();
+        if(index==0){
+            return 0;
+        }
+        return toDos.get(index-1).getId()+1;
+    }
     @Override
     public ToDo updateToDo(int id, ToDo toDo) {
         List<ToDo>allToDo = toDoRepo.findAll();
