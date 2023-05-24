@@ -19,8 +19,8 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
 
     @Override
     public Map<String, Object> getAllToDo(String name, String priority, String status, String page) {
-        List<ToDo> filteredToDoList = new ArrayList<ToDo>() ;
         List<ToDo>allToDo = toDoRepo.findAll();
+        List<ToDo> filteredToDoList = new ArrayList<ToDo>(allToDo) ;
         int currentPage=0;
         int totalPages=0;
         int pageSize=10;
@@ -28,12 +28,10 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
         //priority filter
         if(priority!=null){
             for (int i=0; i<allToDo.size();i++){
-                if(priority.equals(allToDo.get(i).getPriority().toString())) {
-                    filteredToDoList.add(allToDo.get(i));
+                if(!priority.equals(allToDo.get(i).getPriority().toString())) {
+                    filteredToDoList.remove(allToDo.get(i));
                 }
             }
-        }else{
-            filteredToDoList=allToDo;
         }
         //status filter
         if(status!=null){
