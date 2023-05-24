@@ -47,31 +47,18 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
 
         //status filter
         if(status!=null){
-            for(int j=0; j<=filteredToDoList.size();j++){
-                System.out.println(j);
-                if(status.equals("done")){
-                    if(!filteredToDoList.get(j).isDone()){// remove all undone elements
-                        filteredToDoList.remove(j);
-                    }
-                }
+            if(status.equals("undone")){
+                filteredToDoList.removeIf(toDo -> toDo.isDone());//remove if the task is done
+            }
 
-                if(status.equals("undone")){
-                    if(filteredToDoList.get(j).isDone()){ // remove all done elements
-                        filteredToDoList.remove(j);
-                    }
-                }
+            if(status.equals("done")) {
+                filteredToDoList.removeIf(toDo -> !toDo.isDone()); // remove if the task is undone
             }
         }
         //name filter
         if(name!=null){
-            for(int k=0; k<filteredToDoList.size();k++) {
-                if(!filteredToDoList.get(k).getName().contains(name)){
-                    filteredToDoList.remove(filteredToDoList.get(k));
-                }
-            }
+            filteredToDoList.removeIf(toDo -> !toDo.getName().toLowerCase().contains(name.toLowerCase()));  //remove if the task does not contain any element of the searched name
         }
-        // get the total amount of pages
-        totalPages= (int) Math.ceil((double) filteredToDoList.size() /pageSize);
         // sort by priority
         if(sortByPriority!=null){
             List<String> kindOfPriority = Arrays.asList("low","medium","high");
@@ -124,6 +111,9 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
                 filteredToDoList=new ArrayList<ToDo>();
             }
         }
+
+        // get the total amount of pages
+        totalPages= (int) Math.ceil((double) filteredToDoList.size() /pageSize);
 
         Map<String,Object> response = new HashMap<>();
         response.put("toDos",filteredToDoList);
