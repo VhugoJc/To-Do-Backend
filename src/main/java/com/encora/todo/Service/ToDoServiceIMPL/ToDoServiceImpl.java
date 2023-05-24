@@ -123,11 +123,18 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
         return response ;
     }
 
-
     @Override
-    public List<ToDo> getToDo(ToDo toDo) {
-        return null;
+    public ToDo getToDo(int id) {
+        ToDo todoFound = new ToDo();
+        List<ToDo>allToDo = toDoRepo.findAll();
+        for (int i=0; i<allToDo.size();i++){
+            if(allToDo.get(i).getId()==id){
+                todoFound = allToDo.get(i);
+            }
+        }
+        return todoFound;
     }
+
 
     @Override
     public ToDo createToDo(ToDo toDo) {
