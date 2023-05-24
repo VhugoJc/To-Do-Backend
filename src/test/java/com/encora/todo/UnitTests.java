@@ -56,7 +56,7 @@ public class UnitTests {
     }
     @Test
     public void getToDoTest(){
-        Map<String,Object> filteredTodos =  this.impl.getAllToDo("Task", "medium","done", "1");
+        Map<String,Object> filteredTodos =  this.impl.getAllToDo("Task", "medium","done", "1", null, null);
         assertThat(filteredTodos.get("totalPages").toString()).isEqualTo("1");
     }
     @Test

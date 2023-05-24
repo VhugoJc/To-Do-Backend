@@ -45,7 +45,9 @@ The following API endpoints are available:
     - `name` (Optional): name or part of the name required (`string`).
     - `status` (optional): The status of the to-do items. Possible values: `done`, `undone`.
     - `priority` (optional): The priority of the to-do items. Possible values: `low`, `medium`, `high`.
-    - `page` (optional): The page requerided (`int`). The page size is 10 items. 
+    - `page` (optional): The page requerided (`int`). The page size is 10 items.
+    - `sortByDate` (optional): Sorts To Do's by the due date assigned. Possible values: `ascend`, `descend`.
+    - `sortByPriority` (optional): Sorts To Do's by priority assigned. Possible values: `ascend`, `descend`.
 - **Example Request 1**: `/api/todos`
 - **Example Response 1**:
 ```JSON
