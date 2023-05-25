@@ -3,11 +3,6 @@ package com.encora.todo;
 import com.encora.todo.Entity.ToDo;
 import com.encora.todo.Repository.ToDoRepo;
 import com.encora.todo.Service.ToDoServiceIMPL.ToDoServiceImpl;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +24,7 @@ public class UnitTests {
         ToDo todo = new ToDo();
         todo.setName("Task 1");
         todo.setPriority(ToDo.Priority.valueOf("low"));
-        todo.setCreatedDate(LocalDateTime.parse("2023-05-18T10:08:47.316615"));
+        todo.setDueDate(LocalDateTime.parse("2023-05-18T10:08:47.316615"));
         ToDo response = this.impl.createToDo(todo); //create a Task with id 0
 
         assertThat(response.getId()).isEqualTo(0);
