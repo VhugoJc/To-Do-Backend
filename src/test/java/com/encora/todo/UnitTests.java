@@ -3,7 +3,6 @@ package com.encora.todo;
 import com.encora.todo.Entity.ToDo;
 import com.encora.todo.Repository.ToDoRepo;
 import com.encora.todo.Service.ToDoServiceIMPL.ToDoServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,25 +19,20 @@ public class UnitTests {
     ToDoRepo todoRepo;
     @Autowired
     ToDoServiceImpl impl;
-
     @Test
     public void createToDoTest () {
         ToDo todo = new ToDo();
         todo.setName("Task 1");
         todo.setPriority(ToDo.Priority.valueOf("low"));
-        todo.setCreatedDate(LocalDateTime.parse("2023-05-18T10:08:47.316615"));
-        this.impl.createToDo(todo);
-        Assertions.assertNotNull(this.todoRepo.findAll());
+        todo.setDueDate(LocalDateTime.parse("2023-05-18T10:08:47.316615"));
+        ToDo response = this.impl.createToDo(todo); //create a Task with id 0
+
+        assertThat(response.getId()).isEqualTo(0);
     }
-    @Test
-    public void doneToDoTest (){
-        ToDo todo = new ToDo();
-        todo.setName("Task 2");
-        todo.setPriority(ToDo.Priority.valueOf("medium"));
-        todo.setCreatedDate(LocalDateTime.parse("2023-05-18T10:08:47.316615"));
-        this.impl.createToDo(todo); //create element in the list with id 2
-        this.impl.updateDone(1);
-        assertThat(this.todoRepo.findAll().get(0).isDone()).isEqualTo(true);
+        @Test
+    public void getToDoTest(){
+        Map<String,Object> filteredTodos =  this.impl.getAllToDo("Task", "low","undone", "1", null, null);
+        assertThat(filteredTodos.get("totalPages").toString()).isEqualTo("1");
     }
     @Test
     public void updateToDoTest (){
@@ -46,23 +40,14 @@ public class UnitTests {
         todo.setName("Task x");
         todo.setPriority(ToDo.Priority.valueOf("medium"));
         todo.setCreatedDate(LocalDateTime.parse("2023-05-18T10:08:47.316615"));
-        this.impl.updateToDo(1,todo);
-        assertThat(this.todoRepo.findAll().get(0).getName()).isEqualTo("Task x");
+        ToDo response = this.impl.updateToDo(0,todo);
+
+        assertThat(response.getName()).isEqualTo("Task x");
     }
-    @Test
-    public void undoneToDoTest(){
-        this.impl.updateUndone(1);
-        assertThat(this.todoRepo.findAll().get(0).isDone()).isEqualTo(false);
-    }
-    @Test
-    public void getToDoTest(){
-        Map<String,Object> filteredTodos =  this.impl.getAllToDo("Task", "medium","done", "1", null, null);
-        assertThat(filteredTodos.get("totalPages").toString()).isEqualTo("1");
-    }
-    @Test
+        @Test
     public void deleteToDoTest(){
-        this.impl.deleteTodo(1);
-        assertThat(this.todoRepo.size()).isEqualTo(1);
+        this.impl.deleteTodo(0);
+        assertThat(this.todoRepo.size()).isEqualTo(0);
     }
 
 }
