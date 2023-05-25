@@ -7,18 +7,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ToDoServiceImpl implements ToDoService { //All your business logic should be in the Service Layer
     @Autowired
     ToDoRepo toDoRepo;
-
+    private int priorityHelper (String priority) {
+        int priorityValue = 0;
+        switch (priority){
+            case "low":
+                priorityValue=1;
+                break;
+            case "medium":
+                priorityValue=2;
+                break;
+            case "high":
+                priorityValue=3;
+                break;
+        }
+        return priorityValue;
+    }
     @Override
-    public Map<String, Object> getAllToDo(String name, String priority, String status, String page) {
+    public Map<String, Object> getAllToDo(String name, String priority, String status, String page, String sortByPriority, String sortByDate ) {
         List<ToDo>allToDo = toDoRepo.findAll();
         List<ToDo> filteredToDoList = new ArrayList<ToDo>(allToDo) ;
         int currentPage=0;
@@ -29,45 +40,80 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
         if(priority!=null){
             for (int i=0; i<allToDo.size();i++){
                 if(!priority.equals(allToDo.get(i).getPriority().toString())) {
-                    filteredToDoList.remove(allToDo.get(i));
+                    filteredToDoList.remove(allToDo.get(i)); // add all task with the priority
                 }
             }
         }
+
         //status filter
         if(status!=null){
-            for(int j=0; j<filteredToDoList.size();j++){
-                if(status.equals("done")){
-                    if(!filteredToDoList.get(j).isDone()){// remove all undone elements
-                        filteredToDoList.remove(filteredToDoList.get(j));
-                    }
-                }
-                if(status.equals("undone")){
-                    if(filteredToDoList.get(j).isDone()){ // remove all done elements
-                        filteredToDoList.remove(filteredToDoList.get(j));
-                    }
-                }
+            if(status.equals("undone")){
+                filteredToDoList.removeIf(toDo -> toDo.isDone());//remove if the task is done
+            }
+
+            if(status.equals("done")) {
+                filteredToDoList.removeIf(toDo -> !toDo.isDone()); // remove if the task is undone
             }
         }
         //name filter
         if(name!=null){
-            for(int k=0; k<filteredToDoList.size();k++) {
-                if(!filteredToDoList.get(k).getName().contains(name)){
-                    filteredToDoList.remove(filteredToDoList.get(k));
-                }
+            filteredToDoList.removeIf(toDo -> !toDo.getName().toLowerCase().contains(name.toLowerCase()));  //remove if the task does not contain any element of the searched name
+        }
+        // sort by priority
+        if(sortByPriority!=null){
+            List<String> kindOfPriority = Arrays.asList("low","medium","high");
+
+            if(sortByPriority.equals("ascend")){
+                filteredToDoList.sort((todo1,todo2)->priorityHelper(todo1.getPriority().toString())-priorityHelper(todo2.getPriority().toString()));
+            }
+            if(sortByPriority.equals("descend")){
+                filteredToDoList.sort((todo1,todo2)->priorityHelper(todo1.getPriority().toString())-priorityHelper(todo2.getPriority().toString()));
+                Collections.reverse(filteredToDoList);
             }
         }
-        // get the total amount of pages
-        totalPages= (int) Math.ceil((double) filteredToDoList.size() /pageSize);
+        // sort by date
+        if(sortByDate!=null){
+            if(sortByDate.equals("ascend")){
+                Collections.sort(filteredToDoList, new Comparator<ToDo>() {
+                    public int compare(ToDo o1, ToDo o2) {
+                        if (o1.getDueDate() == null) {
+                            return (o2.getDueDate() == null) ? 0 : -1;
+                        }
+                        if (o2.getDueDate() == null) {
+                            return 1;
+                        }
+                        return o2.getDueDate().compareTo(o1.getDueDate());
+                    }
+                });
+            }
+            if(sortByDate.equals("descend")){
+                Collections.sort(filteredToDoList, new Comparator<ToDo>() {
+                    public int compare(ToDo o1, ToDo o2) {
+                        if (o1.getDueDate() == null) {
+                            return (o2.getDueDate() == null) ? 0 : -1;
+                        }
+                        if (o2.getDueDate() == null) {
+                            return 1;
+                        }
+                        return o2.getDueDate().compareTo(o1.getDueDate());
+                    }
+                });
+                Collections.reverse(filteredToDoList);
+            }
+        }
 
         // pagination
-        if(page != null && page.matches("[0-9.]+")){ //if is numeric
+        if(page != null && page.matches("[0-9.]+")){ //if it is numeric
             currentPage= Integer.parseInt(page) - 1;
-            if(currentPage>=0 && currentPage*pageSize<filteredToDoList.size() ){ // if in the range
+            if(currentPage>=0 && currentPage*pageSize<filteredToDoList.size() ){ // if it is in the range
                 filteredToDoList=filteredToDoList.subList(currentPage*pageSize, Math.min(currentPage*pageSize+pageSize, filteredToDoList.size()));
             }else{
                 filteredToDoList=new ArrayList<ToDo>();
             }
         }
+
+        // get the total amount of pages
+        totalPages= (int) Math.ceil((double) filteredToDoList.size() /pageSize);
 
         Map<String,Object> response = new HashMap<>();
         response.put("toDos",filteredToDoList);
@@ -78,9 +124,17 @@ public class ToDoServiceImpl implements ToDoService { //All your business logic 
     }
 
     @Override
-    public List<ToDo> getToDo(ToDo toDo) {
-        return null;
+    public ToDo getToDo(int id) {
+        ToDo todoFound = new ToDo();
+        List<ToDo>allToDo = toDoRepo.findAll();
+        for (int i=0; i<allToDo.size();i++){
+            if(allToDo.get(i).getId()==id){
+                todoFound = allToDo.get(i);
+            }
+        }
+        return todoFound;
     }
+
 
     @Override
     public ToDo createToDo(ToDo toDo) {
