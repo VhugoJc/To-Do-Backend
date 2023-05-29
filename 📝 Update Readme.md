@@ -33,6 +33,8 @@ mvn test
 ```
 The application will start running on http://localhost:9090.
 
+`CORS` are enable by method from http://localhost:8080. If change the origin is needed, you can edit the `CLIENT_URL` variable in the controller class.
+
 
 
 ## API Endpoints
